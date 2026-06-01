@@ -180,7 +180,6 @@ bool RDAAM_CheckParameters()
 {
 	paramsOK = true;
 	paramsOK = paramsOK && (radius > 0);
-
 	return paramsOK;
 }
 
