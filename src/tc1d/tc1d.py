@@ -654,7 +654,9 @@ def ft_ages(ti_arr, te_arr, n, write_track_lengths):
     oldest_age = c_double(0.0)
     fmean = c_double(0.0)
     fdist = (c_double * 200)()
-
+    print("ketch call:", ntime.value, f"[{', '.join(str(t) for t in ti_arr)}]",
+          f"[{', '.join(str(t) for r in te_arr)}]", alo.value, 
+          final_age.value, oldest_age.value, fmean.value, fdist, sep="\n")
     # Calculate age
     ketch.ketch_main(
         pointer(ntime),  # int *ntime
@@ -666,7 +668,7 @@ def ft_ages(ti_arr, te_arr, n, write_track_lengths):
         pointer(fmean),  # double *fmean
         fdist,  # double fdist[]
     )
-
+    print("returned:", final_age.value, fmean.value, sep="\n")
     if write_track_lengths:
         with open("ft_length.csv", "w") as out_csv:
             for i, d in enumerate(fdist):
