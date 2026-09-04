@@ -753,8 +753,8 @@ void RDAAM_InitFTAnnealingTraps(double**& annealingTraps, bool optimize) {
   }
 
   if (fState != NULL)
-    free_dmatrix(fState, 0, numTTNodes - 1, 0, numTTNodes - 1);
-  if (heState != NULL) free_dmatrix(heState, 0, numTTNodes - 1, 0, rdim);
+    free_dmatrix(fState, 0, numTTNodes - 1, 0);
+  if (heState != NULL) free_dmatrix(heState, 0, numTTNodes - 1, 0);
 }
 
 // RDAAM_CalcHeAge
@@ -802,7 +802,7 @@ void RDAAM_CalcHeAge(bool optimize) {
        tTPath.size() *
            0.7)) {  // Redo if not enough nodes are used (70% of path unused)
     if (annealingTraps != NULL)
-      free_dmatrix(annealingTraps, 0, tTPath.size() - 1, 0, rdim);
+      free_dmatrix(annealingTraps, 0, tTPath.size() - 1, 0);
     RDAAM_InterpolateTTPath(tTPath[endNode].time / SECS_PER_MA);
     RDAAM_InitFTAnnealingTraps(annealingTraps, optimize);
   }
@@ -980,7 +980,7 @@ void RDAAM_CalcHeAge(bool optimize) {
   heCorrModelAge /= 1.e6;  // Convert from years to Ma
 
   if (annealingTraps != NULL)
-    free_dmatrix(annealingTraps, 0, tTPath.size() - 1, 0, rdim);
+    free_dmatrix(annealingTraps, 0, tTPath.size() - 1, 0);
 }
 
 // RDAAM_FreeCalcArrays
