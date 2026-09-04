@@ -124,7 +124,6 @@ int  ForwardModel(
                     int       doProject,          /* Do c-axis projection (1=yes, 0=no) */
                     int       usedCf,             /* Was Cf-irradiation used for analysis? (1=yes, 0=no) */
                     int       kinParType,         /* Kinetic parameter type (code) */
-                    int       l0model,            /* Initial length model used (code) */
                     double    l0user,             /* User-defined initial length */
                     double    cdf[],              /* Calculated track length cdf */
                     int       numPDFPts,          /* Number of points in pdf and cdf arrays */
