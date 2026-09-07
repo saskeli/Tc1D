@@ -727,6 +727,12 @@ void CalcModelAgesKet(ttPathPtr tTPath, double redLength[], int numTTNodes,
   int node;
   double midLength;
 
+  if (firstNode >= numTTNodes - 1) {
+    *oldestModelAge = 0.0;
+    *ftModelAge = 0.0;
+    return;
+  }
+
   *oldestModelAge = tTPath[firstNode].time / SECS_PER_MA;
   for (*ftModelAge = 0.0, node = firstNode; node < numTTNodes - 2; node++) {
     /* Correct each time interval for length reduction */
@@ -767,6 +773,12 @@ void CalcModelAges(ttPathPtr tTPath, double redLength[], int numTTNodes,
                    double stdLengthReduction) {
   int node;
   double midLength;
+
+  if (firstNode >= numTTNodes - 1) {
+    *oldestModelAge = 0.0;
+    *ftModelAge = 0.0;
+    return;
+  }
 
   *oldestModelAge = tTPath[firstNode].time / SECS_PER_MA;
   for (*ftModelAge = 0.0, node = firstNode; node < numTTNodes - 2; node++) {
@@ -824,7 +836,9 @@ int ForwardModel(int numTTDefs, double stdLengthReduction, double kinPar,
                         tTPath, pdfAxis, pdf, cdf, initLength, redLength);
       CalcModelAgesKet(&tTPath[0], redLength, numTTNodes, firstTTNode,
                        oldestModelAge, ftModelAge, stdLengthReduction);
-      *numPopulations = numTTNodes - firstTTNode;
+      *numPopulations = (firstTTNode < numTTNodes - 1)
+                ? numTTNodes - firstTTNode
+                : 0;
     } else
       *numPopulations = 0;
   } else {
@@ -839,7 +853,9 @@ int ForwardModel(int numTTDefs, double stdLengthReduction, double kinPar,
                      pdfAxis, pdf, cdf, initLength, redLength);
       CalcModelAges(tTPath, redLength, numTTNodes, firstTTNode, oldestModelAge,
                     ftModelAge, stdLengthReduction);
-      *numPopulations = numTTNodes - firstTTNode;
+      *numPopulations = (firstTTNode < numTTNodes - 1)
+                ? numTTNodes - firstTTNode
+                : 0;
     } else
       *numPopulations = 0;
   }

@@ -84,6 +84,17 @@ def load_rdaam():
 # ketch_aft for AFT
 def load_ketch():
     ketch = load_lib("ketch")
+    ketch.ketch_main.argtypes = [
+        POINTER(c_int),  # ntime
+        POINTER(c_float),  # ketchtime[]
+        POINTER(c_float),  # ketchtemp[]
+        POINTER(c_double),  # alo
+        POINTER(c_double),  # final_age
+        POINTER(c_double),  # oldest_age
+        POINTER(c_double),  # fmean
+        POINTER(c_double),  # fdist[]
+    ]
+    ketch.ketch_main.restype = None
     return ketch
 
 
