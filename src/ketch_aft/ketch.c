@@ -803,6 +803,14 @@ int ForwardModel(int numTTDefs, double stdLengthReduction, double kinPar,
   int numConv;
   ttPathRec tTPath[MAX_NUM_TIME_STEPS]; /* Interpolated time-temperature path */
 
+  *oldestModelAge = 0.0;
+  *ftModelAge = 0.0;
+  *numPopulations = 0;
+  for (int i = 0; i < numPDFPts; i++) {
+    cdf[i] = 0.0;
+    pdf[i] = 0.0;
+  }
+
   initLength = InitialTrackLength(kinPar, kinParType, doProject, l0user);
   /* KG */ if (initLength < 1)
     initLength = l0user;

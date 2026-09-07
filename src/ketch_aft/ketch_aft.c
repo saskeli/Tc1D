@@ -9,7 +9,7 @@ int main( int argc, char *argv[] )  {
 
     int nstep;
     double alo, final_age, oldest_age, fmean;
-    double ftdist[200] = { 0.0 };;
+    double ftdist[201] = { 0.0 };
 
     char line[LSIZ];
     FILE *fptr = NULL; 
