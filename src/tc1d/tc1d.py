@@ -653,7 +653,7 @@ def ft_ages(ti_arr, te_arr, n, write_track_lengths):
     final_age = c_double(0.0)
     oldest_age = c_double(0.0)
     fmean = c_double(0.0)
-    fdist = (c_double * 200)()
+    fdist = (c_double * 201)()
     print("ketch call:", ntime.value, alo.value, 
           final_age.value, oldest_age.value, fmean.value, sep="\n")
     # Calculate age
