@@ -377,7 +377,7 @@ void CalcModelLengthsKet(ttPathPtr tTPath, int numTTNodes, double redLength[],
       /* Just convert the kinetic parameter to Cl apfu
          Note that this invalidates kinPar for the rest of the routine */
       kinPar = kinPar * 0.2978;
-      //break;
+      __attribute__((fallthrough));
     case CL_PFU:
       calc = fabs(kinPar - 1.0);
       if (calc <= 0.130)
@@ -405,6 +405,10 @@ void CalcModelLengthsKet(ttPathPtr tTPath, int numTTNodes, double redLength[],
   equivTotAnnLen = pow(totAnnealLen, 1.0 / k) * (1.0 - rmr0) + rmr0;
 
   equivTime = 0.0;
+  if (numTTNodes < 2) {
+    fprintf(stderr, "Invalid numTTNodes for this context: %d < 2\n", numTTNodes);
+    exit(1);
+  }
   tempCalc =
       log(1.0 /
           ((tTPath[numTTNodes - 2].temp + tTPath[numTTNodes - 1].temp) / 2.0));
@@ -793,7 +797,8 @@ int ForwardModel(int numTTDefs, double stdLengthReduction, double kinPar,
                  int* numPopulations, ttPathPtr tTDef) {
   double redLength[MAX_NUM_TIME_STEPS];
   double initLength;
-  int firstTTNode, numTTNodes;
+  int firstTTNode = 0;
+  int numTTNodes;
   annealModelRec annMod;
   annealConvPtr annConv;
   int numConv;
@@ -839,6 +844,10 @@ void ketch_main(int* ntime, float ketchtime[], float ketchtemp[], double* alo,
                 double fdist[]) {
   // ttPathRec kerryTt[22];
   ttPathRec* kerryTt = (ttPathRec*)calloc(*ntime, sizeof(ttPathRec));
+  if (kerryTt == NULL) {
+    fprintf(stderr, "calloc of kerryTt returned null");
+    exit(1);
+  }
 #define nbins 200
   int numPDFPts = nbins;
   double pdfAxis[nbins];

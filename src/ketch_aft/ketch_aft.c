@@ -28,6 +28,10 @@ int main( int argc, char *argv[] )  {
 
     // Read tT file to get number of lines
     fptr = fopen(argv[1], "r");
+    if (!fptr) {
+        fprintf(stderr, "Error opening %s", argv[1]);
+        exit(1);
+    }
     while(fgets(line, LSIZ, fptr))
     {
         i++;
@@ -44,12 +48,20 @@ int main( int argc, char *argv[] )  {
     float temp[tot];
 
     fptr = fopen(argv[1], "r"); 
+    if (!fptr) {
+        fprintf(stderr, "Error opening %s", argv[1]);
+        exit(1);
+    }
 
     // Read tT file again and store times/temperatures
     for(i = 0; i < tot; ++i)
     {
         fgets(line, LSIZ, fptr);
         pt = strtok(line,",");
+        if (!pt) {
+            fprintf(stderr, "strotok error");
+            exit(1);
+        }
         time[i] = atof(pt);
         while (pt != NULL) {
             temp[i] = atof(pt);
@@ -80,6 +92,10 @@ int main( int argc, char *argv[] )  {
     if (write_tl_dist_flag == 1)
     {
         fp = fopen("ft_length.csv", "w");
+        if (!fp) {
+            fprintf(stderr, "Error opening ft_length.csv");
+            exit(1);
+        }
         fprintf(fp, "Track length,Probability\n");
         for(i = 0; i < 200; i++)
         {
