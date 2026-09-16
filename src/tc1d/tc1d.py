@@ -866,15 +866,26 @@ def calculate_ages_and_tcs(
     )
     rdaam.del_path(pa)
 
-    ti_arr = (c_float * len(ti_hist))()
-    te_arr = (c_float * len(te_hist))()
-    for i in range(len(ti_hist)):
-        ti_arr[i] = c_float(ti_hist[i])
-        te_arr[i] = c_float(te_hist[i])
+    filtered_ti_hist = []
+    filtered_te_hist = []
+    previous_time = None
+    for time_value, temp_value in zip(ti_hist, te_hist):
+        native_time = c_float(time_value).value
+        if previous_time is not None and native_time <= previous_time:
+            continue
+        filtered_ti_hist.append(native_time)
+        filtered_te_hist.append(c_float(temp_value).value)
+        previous_time = native_time
+
+    ti_arr = (c_float * len(filtered_ti_hist))()
+    te_arr = (c_float * len(filtered_te_hist))()
+    for i in range(len(filtered_ti_hist)):
+        ti_arr[i] = filtered_ti_hist[i]
+        te_arr[i] = filtered_te_hist[i]
 
     if params["ketch_aft"]:
         aft_age, aft_mean_ftl = ft_ages(
-            ti_arr, te_arr, len(ti_hist), write_track_lengths
+            ti_arr, te_arr, len(filtered_ti_hist), write_track_lengths
         )
 
     # Find effective closure temperatures

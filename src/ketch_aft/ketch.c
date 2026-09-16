@@ -940,6 +940,7 @@ void ketch_main(int* ntime, float ketchtime[], float ketchtemp[], double* alo,
                &oldestModelAge, &ftModelAge, &numPopulations, kerryTt);
 
   meanlength = 0.0;
+  fdist[0] = 0.0;
   for (i = 0; i < numPDFPts; i++) {
     meanlength += pdfAxis[i] * pdf[i];
     fdist[i + 1] = pdf[i];
