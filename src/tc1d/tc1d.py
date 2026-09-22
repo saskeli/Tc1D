@@ -4471,8 +4471,13 @@ def run_model(params):
             surface_times_ma[:-1] = np.sort(obs_unique_depo_ages)[::-1]
         else:
             if params["past_age_increment"] > 0.0:
-                surface_times_ma = np.arange(
-                    0.0, params["t_total"], params["past_age_increment"]
+                n_steps = int(np.floor(params["t_total"] / params["past_age_increment"]))
+                surface_times_ma = np.linspace(
+                    0.0,
+                    params["t_total"] - params["past_age_increment"],
+                    num=n_steps,
+                    endpoint=True,
+                    dtype=float,
                 )
                 surface_times_ma = np.flip(surface_times_ma)
             else:
