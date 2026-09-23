@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "ketch.h"
 
 #define LSIZ 128 
@@ -28,6 +29,7 @@ int main( int argc, char *argv[] )  {
 
     // Read tT file to get number of lines
     fptr = fopen(argv[1], "r");
+    assert(fptr != NULL);
     while(fgets(line, LSIZ, fptr))
     {
         i++;
@@ -44,12 +46,13 @@ int main( int argc, char *argv[] )  {
     float temp[tot];
 
     fptr = fopen(argv[1], "r"); 
-
+    assert(fptr != NULL);
     // Read tT file again and store times/temperatures
     for(i = 0; i < tot; ++i)
     {
         fgets(line, LSIZ, fptr);
         pt = strtok(line,",");
+        assert(pt != NULL);
         time[i] = atof(pt);
         while (pt != NULL) {
             temp[i] = atof(pt);
@@ -80,6 +83,7 @@ int main( int argc, char *argv[] )  {
     if (write_tl_dist_flag == 1)
     {
         fp = fopen("ft_length.csv", "w");
+        assert(fp != NULL);
         fprintf(fp, "Track length,Probability\n");
         for(i = 0; i < 200; i++)
         {
