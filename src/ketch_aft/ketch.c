@@ -767,15 +767,17 @@ void  CalcModelAgesKet(ttPathPtr  tTPath,
   double  midLength;
 
   *oldestModelAge = tTPath[firstNode].time/SECS_PER_MA;
-  for (*ftModelAge=0.0, node=firstNode; node < numTTNodes-2; node++) {
+  double age = 0.0;
+  for (node=firstNode; node < numTTNodes-2; node++) {
 /* Correct each time interval for length reduction */
     midLength = (redLength[node]+redLength[node+1])/2.0;
-    *ftModelAge += AgeCorrectionKet(midLength)*(tTPath[node].time-tTPath[node+1].time);
+    age += AgeCorrectionKet(midLength)*(tTPath[node].time-tTPath[node+1].time);
   }
-  *ftModelAge += AgeCorrectionKet(redLength[numTTNodes-2])*(tTPath[node].time-tTPath[node+1].time);
+  age += AgeCorrectionKet(redLength[numTTNodes-2])*(tTPath[node].time-tTPath[node+1].time);
 
 /* Account for length reduction in length standard, convert to Ma */
-  *ftModelAge /= (stdLengthReduction*SECS_PER_MA);
+  age /= (stdLengthReduction*SECS_PER_MA);
+  *ftModelAge = age;
 }
 
 
@@ -884,6 +886,7 @@ void  CalcModelAges(ttPathPtr  tTPath,
 							 pdf,cdf,initLength,redLength);
 		CalcModelAges(tTPath,redLength,numTTNodes,firstTTNode,oldestModelAge,
 							 ftModelAge,stdLengthReduction);
+    printf("%d: %f\n", __LINE__, *ftModelAge);
 		*numPopulations = numTTNodes - firstTTNode;
 	 }
 	 else
