@@ -15,7 +15,7 @@ int main( int argc, char *argv[] )  {
     char line[LSIZ];
     FILE *fptr = NULL; 
     int i = 0;
-    int tot = 0;
+    int tot;
     char *pt;
 
     FILE *fp;
@@ -42,8 +42,8 @@ int main( int argc, char *argv[] )  {
         exit(1);
     }
 
-    float time[tot];
-    float temp[tot];
+    float* time = calloc(tot, sizeof(float));
+    float* temp = calloc(tot, sizeof(float));
 
     fptr = fopen(argv[1], "r"); 
     assert(fptr != NULL);
@@ -91,6 +91,9 @@ int main( int argc, char *argv[] )  {
         }
         fclose(fp);
     }
+
+    free(time);
+    free(temp);
 
     return 0;
 }
